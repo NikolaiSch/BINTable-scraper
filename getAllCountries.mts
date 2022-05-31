@@ -23,7 +23,6 @@ async function getCountry(url: string): Promise<IBank[]> {
     let max;
     const $ = cheerio.load(text);
     let a1 = $.text().match(countRegex);
-    console.log(a1![1]);
     let a = parseInt(a1![1]);
 
     if (a % 50 == 0) {
