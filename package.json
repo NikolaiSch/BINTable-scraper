@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/node": "^17.0.36",
+    "cheerio": "^1.0.0-rc.11"
+  }
+}
