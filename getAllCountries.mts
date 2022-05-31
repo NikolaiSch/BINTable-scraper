@@ -13,7 +13,11 @@ const countRegex =
 
 let binCounter = 0;
 
+let totalCountries = 0;
+let initCountries = 0;
+
 async function getCountry(url: string): Promise<IBank[]> {
+    initCountries++;
     const country = url.trim().toUpperCase().slice(-2);
     let text = await (await fetch(url)).text();
     let max;
@@ -30,7 +34,6 @@ async function getCountry(url: string): Promise<IBank[]> {
 
     let allUrls: string[] = [];
     for (let page = 1; page < max; page++) {
-        console.log("currently doing country:", country, page, max);
         let urls = await getBanks(`${url}?page=${page}`);
         allUrls = [...allUrls, ...urls];
     }
@@ -45,9 +48,12 @@ async function getCountry(url: string): Promise<IBank[]> {
             ++c,
             "/",
             allUrls.length,
-            "\n",
-            "total bins: ",
-            binCounter
+            "\n\nTotal bins: ",
+            binCounter,
+            "\n\nCountries done: ",
+            initCountries,
+            "/",
+            totalCountries
         );
         let out: IBank = {
             bankName: url.split("/").slice(-1)[0].replace("-", " "),
@@ -109,11 +115,12 @@ async function main() {
         countries.push("https://bintable.com/" + $(e).attr("href")!);
     });
 
+    totalCountries = countries.length;
+
     let out: IBank[] = [];
 
     for (let c of countries) {
         out = out.concat(await getCountry(c));
-        console.log("Total Bins completed: ", binCounter);
     }
 
     fs.writeFileSync("./output.json", JSON.stringify(out, null, 4));
