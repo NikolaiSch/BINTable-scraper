@@ -42,7 +42,7 @@ async function getCountry(url: string): Promise<IBank[]> {
 
   let pages_count = Math.ceil(country_count / 50)
 
-  for (let page = 1; page < pages_count; page++) {
+  for (let page = 0; page < pages_count; page++) {
     let urls = await getBanks(`${url}?page=${page}`)
     // bad memory usage looking back at it
     allUrls = allUrls.concat(urls)
@@ -55,9 +55,7 @@ async function getCountry(url: string): Promise<IBank[]> {
     console.log(
       "Currently doing",
       country_code,
-      "url: ",
-      ++country_i,
-      "/",
+      "urls: ",
       allUrls.length,
       "\n\nTotal bins: ",
       binCounter,
@@ -103,7 +101,7 @@ async function getBins(input: string) {
     }
   })
 
-  for (let page = 1; page < max + 1; page++) {
+  for (let page = 1; page < max; page++) {
     // fetching each page of bins
     let x = await fetch(`${input}?page=${page}`)
     const $ = load(await x.text())
@@ -162,6 +160,9 @@ async function main() {
 
   // this is much better
   let promises = await Promise.all(countries.map(getCountry))
+
+  // flattens it so it's not an array of arrays
+  promises.flat()
 
   // slow writing again, and using sync... should use fs/promises
   fs.writeFileSync("./output.json", JSON.stringify(out, null, 4))
