@@ -8,4 +8,4 @@
 ## 2024 notes
 
 - Renamed some of the mts files to ts in an attempt to get it to run
--
+- View 2024_update branch to see comments, and how i would improve it (added comments to explain what I would do now, only spent 15 minutes to improve it)
