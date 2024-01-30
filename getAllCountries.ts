@@ -111,6 +111,8 @@ async function getBins(input: string) {
     // using each to iterate through each row of the bin table
     $("table tr").each((_, e) => {
       let t = $(e).text()
+      // testing if the row has a bin
+      // with regex :(
       if (binRegex.test(t)) {
         let a = t.match(binRegex)!
         out.push(a[0])
